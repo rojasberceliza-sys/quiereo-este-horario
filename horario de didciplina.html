@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Disciplina en Casa</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #ff8c00, #ffb347);
+    min-height: 100vh;
+    padding: 20px 12px;
+    color: #333;
+}
+
+.container {
+    max-width: 430px;
+    margin: auto;
+    background: #fffaf2;
+    border-radius: 25px;
+    padding: 22px;
+    box-shadow: 0 8px 25px #a64b003d;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #ed7200;
+    font-size: 27px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #777;
+    font-size: 14px;
+}
+
+.fecha {
+    background: #ffead2;
+    padding: 12px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    color: #b65b00;
+    font-weight: bold;
+}
+
+.progreso {
+    margin-bottom: 20px;
+}
+
+.progreso-texto {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.barra {
+    background: #ffe0bd;
+    height: 12px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.relleno {
+    height: 100%;
+    width: 0%;
+    background: #ff8500;
+    transition: 0.3s;
+}
+
+h2 {
+    color: #e97800;
+    font-size: 19px;
+    margin: 20px 0 12px;
+}
+
+.actividad {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid #ffe0bd;
+    padding: 13px;
+    border-radius: 13px;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.actividad input {
+    width: 21px;
+    height: 21px;
+    accent-color: #ff8500;
+    cursor: pointer;
+}
+
+.actividad .hora {
+    color: #e97800;
+    font-weight: bold;
+    font-size: 13px;
+    min-width: 85px;
+}
+
+.actividad .nombre {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.actividad.completada {
+    background: #fff0df;
+    opacity: 0.7;
+}
+
+.actividad.completada .nombre {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.mensaje {
+    background: #ffead2;
+    padding: 17px;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 20px;
+    color: #a34e00;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+button {
+    border: none;
+    background: #ed7800;
+    color: white;
+    padding: 13px;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #cf6500;
+}
+
+footer {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>🧡 Mi Disciplina</h1>
+    <p>Mi horario de disciplina en casa</p>
+</header>
+
+<div class="fecha" id="fecha"></div>
+
+<div class="progreso">
+    <div class="progreso-texto">
+        <span>Mi progreso diario</span>
+        <span id="porcentaje">0%</span>
+    </div>
+    <div class="barra">
+        <div class="relleno" id="relleno"></div>
+    </div>
+</div>
+
+<h2>🌅 Mañana</h2>
+
+<div id="manana"></div>
+
+<h2>☀️ Tarde</h2>
+
+<div id="tarde"></div>
+
+<h2>🌙 Noche</h2>
+
+<div id="noche"></div>
+
+<div class="mensaje" id="mensaje">
+    💪 ¡Cada pequeño esfuerzo cuenta!
+    <br>
+    ¡Hoy será un gran día!
+</div>
+
+<button onclick="reiniciar()">🔄 Reiniciar mi horario</button>
+
+<footer>
+    Mi disciplina, mi responsabilidad, mi éxito. 🧡
+</footer>
+
+</div>
+
+<script>
+
+const horarios = {
+    manana: [
+        ["6:00 AM", "🌞 Levantarme y tender mi cama"],
+        ["6:15 AM", "🪥 Cepillarme y asearme"],
+        ["6:30 AM", "🧹 Limpiar mi habitación"],
+        ["7:00 AM", "🥛 Desayunar"],
+        ["7:30 AM", "📚 Estudiar o hacer tareas"],
+        ["9:00 AM", "🧺 Ordenar mi casa"],
+        ["10:00 AM", "🚶 Hacer ejercicio"]
+    ],
+
+    tarde: [
+        ["12:00 PM", "🍲 Preparar el almuerzo"],
+        ["1:00 PM", "🍽️ Almorzar"],
+        ["2:00 PM", "🧽 Lavar los platos"],
+        ["3:00 PM", "📖 Leer o estudiar"],
+        ["4:00 PM", "🧹 Ordenar la casa"],
+        ["5:00 PM", "🎮 Tiempo libre"]
+    ],
+
+    noche: [
+        ["6:00 PM", "🚿 Bañarme y asearme"],
+        ["7:00 PM", "🍽️ Cenar"],
+        ["7:30 PM", "🧼 Lavar los platos"],
+        ["8:00 PM", "🎒 Preparar mis cosas"],
+        ["8:30 PM", "📱 Dejar el celular"],
+        ["9:00 PM", "😴 Dormir"]
+    ]
+};
+
+function crearActividades() {
+    Object.keys(horarios).forEach(seccion => {
+        const contenedor = document.getElementById(seccion);
+        contenedor.innerHTML = "";
+
+        horarios[seccion].forEach((item, index) => {
+            const id = seccion + index;
+
+            const div = document.createElement("div");
+            div.className = "actividad";
+
+            div.innerHTML = `
+                <input type="checkbox"
+                    id="${id}"
+                    onchange="actualizar()">
+                <span class="hora">${item[0]}</span>
+                <span class="nombre">${item[1]}</span>
+            `;
+
+            contenedor.appendChild(div);
+        });
+    });
+}
+
+function actualizar() {
+    const checks = document.querySelectorAll(
+        '.actividad input[type="checkbox"]'
+    );
+
+    let completadas = 0;
+
+    checks.forEach(check => {
+        if (check.checked) {
+            completadas++;
+            check.parentElement.classList.add("completada");
+        } else {
+            check.parentElement.classList.remove("completada");
+        }
+    });
+
+    const porcentaje = Math.round(
+        (completadas / checks.length) * 100
+    );
+
+    document.getElementById("porcentaje").textContent =
+        porcentaje + "%";
+
+    document.getElementById("relleno").style.width =
+        porcentaje + "%";
+
+    const mensaje = document.getElementById("mensaje");
+
+    if (porcentaje === 100) {
+        mensaje.innerHTML =
+            "🏆 ¡FELICIDADES!<br>¡Has completado todo tu horario!";
+    } else if (porcentaje >= 50) {
+        mensaje.innerHTML =
+            "🔥 ¡Excelente trabajo!<br>Sigue adelante, tú puedes.";
+    } else {
+        mensaje.innerHTML =
+            "💪 ¡Cada pequeño esfuerzo cuenta!<br>¡Hoy será un gran día!";
+    }
+}
+
+function reiniciar() {
+    document.querySelectorAll(
+        '.actividad input[type="checkbox"]'
+    ).forEach(check => {
+        check.checked = false;
+    });
+
+    actualizar();
+}
+
+function mostrarFecha() {
+    const hoy = new Date();
+
+    document.getElementById("fecha").textContent =
+        hoy.toLocaleDateString("es-PE", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+}
+
+crearActividades();
+mostrarFecha();
+
+</script>
+
+</body>
+</html>
